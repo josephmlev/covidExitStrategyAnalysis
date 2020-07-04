@@ -54,7 +54,6 @@ sol = sp.odeint(seir, y, t, (g, k, r))
 ##########
 
 
-timeAxes = t
 plt.close('all')
 plt.figure(1)
 plt.plot(t, sol[:, 0], label = 'Susceptible')
