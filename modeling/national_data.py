@@ -5,11 +5,21 @@ import pylab as py
 import pandas as pd
 import CovidFunctions as cf
 
-df_CA = cf.State_TS('California')
-df_AZ = cf.State_TS('Arizona')
-df_TX = cf.State_TS('Texas')
-df_NY = cf.State_TS('New York')
-df_FL = cf.State_TS('Florida')
+filename_c = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
+filename_d = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
+df_c = pd.read_csv(filename_c).drop(columns=[
+            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
+            'Country_Region', 'Admin2', 'FIPS'])
+df_d = pd.read_csv(filename_d).drop(columns=[
+            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
+            'Country_Region', 'Admin2', 'FIPS', 'Population'])
+dfRaw = (df_c, df_d)
+
+df_CA = cf.State_TS('California', dfRaw)
+df_AZ = cf.State_TS('Arizona', dfRaw)
+df_TX = cf.State_TS('Texas', dfRaw)
+df_NY = cf.State_TS('New York', dfRaw)
+df_FL = cf.State_TS('Florida', dfRaw)
 
 py.figure('Confirmed Cases Comparison', figsize=[16.0, 6.0])
 py.title('AZ and CA Confirmed Cases Comparison')
