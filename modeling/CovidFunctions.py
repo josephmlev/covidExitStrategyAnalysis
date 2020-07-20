@@ -20,8 +20,11 @@ now =  date.today() - timedelta(days=1)
 format = "%m-%d-%Y"
 date1 = now.strftime(format)
  
-filename_c = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
-filename_d = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
+#filename_c = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
+#filename_d = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
+filename_c = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
+filename_d = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
+
 
 filename_dailyReport = 'COVID-19-master/csse_covid_19_data/csse_covid_19_daily_reports_us/' + date1 + '.csv'
 
