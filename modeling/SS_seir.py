@@ -71,3 +71,8 @@ py.plot(time, R, color='green', label='Recovered', linewidth=1.5)
 py.legend(frameon=True)
 py.xlabel('Days'); py.ylabel('People')
 py.show()
+'''
+
+
+
+

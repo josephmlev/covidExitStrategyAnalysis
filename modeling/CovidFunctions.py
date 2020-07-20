@@ -20,13 +20,13 @@ now =  date.today() - timedelta(days=1)
 format = "%m-%d-%Y"
 date1 = now.strftime(format)
  
-filename_c = 'time_series_covid19_confirmed_US.csv' 
-filename_d = 'time_series_covid19_deaths_US.csv'
+filename_c = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
+filename_d = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
 
 filename_dailyReport = 'COVID-19-master/csse_covid_19_data/csse_covid_19_daily_reports_us/' + date1 + '.csv'
 
 # Returns a data frame with time series data for total and new cases and deaths.
-def State_df(state):
+def State_TS(state):
     # The only columns needed are the dates, numbers and Location ID
     df_c = pd.read_csv(filename_c).drop(columns=[
             'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
@@ -41,9 +41,7 @@ def State_df(state):
     df_c.reset_index(level=0, inplace=True) # Moves the dates from a row name to new column
     df_c = df_c.rename(columns={'index':'Date', 0:"Total Cases"}) #rename the columns 
     
-    df_c['Date'] = pd.to_datetime(df_c['Date'], format='%m%d%Y', errors='ignore') # change the date format
-    
-    # Now to do the samething for the deaths df
+        # Now to do the samething for the deaths df
     df_d = pd.read_csv(filename_d).drop(columns=[
             'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
             'Country_Region', 'Admin2', 'FIPS', 'Population'])
@@ -55,14 +53,13 @@ def State_df(state):
     
     df_d.reset_index(level=0, inplace=True) # Moves the dates from a row name to new column
     df_d = df_d.rename(columns={'index':'Date', 0:"Total Deaths"}) #rename the columns
-    df_d['Date'] = pd.to_datetime(df_d['Date'], format='%m%d%Y', errors='ignore') # change the date format
     
     #Merge the cases and deaths into one Dataframe
     df = pd.merge(df_c, df_d, how='left')
     
     return df
 
-def State_Daily_Update(State):
+def State_DR(State):
     if type(State) != str:
         return print('State must be a string')
     else:
