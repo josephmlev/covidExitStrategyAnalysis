@@ -24,16 +24,21 @@ date1 = now.strftime(format)
 #filename_d = 'COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
 filename_c = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv' 
 filename_d = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv'
-
+df_c = pd.read_csv(filename_c).drop(columns=[
+            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
+            'Country_Region', 'Admin2', 'FIPS'])
+df_d = pd.read_csv(filename_d).drop(columns=[
+            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
+            'Country_Region', 'Admin2', 'FIPS', 'Population'])
 
 filename_dailyReport = 'COVID-19-master/csse_covid_19_data/csse_covid_19_daily_reports_us/' + date1 + '.csv'
 
 # Returns a data frame with time series data for total and new cases and deaths.
-def State_TS(state):
+def State_TS(state, dfRaw):
+    df_c = dfRaw[0]
+    df_d = dfRaw[1]
     # The only columns needed are the dates, numbers and Location ID
-    df_c = pd.read_csv(filename_c).drop(columns=[
-            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
-            'Country_Region', 'Admin2', 'FIPS'])
+
     
     # Locate the requested state then drop ID column and sum over all regions
     df_c = df_c.loc[df_c['Province_State'] == state].drop(columns=['Province_State']).sum(axis=0)
@@ -45,9 +50,7 @@ def State_TS(state):
     df_c = df_c.rename(columns={'index':'Date', 0:"Total Cases"}) #rename the columns 
     
         # Now to do the samething for the deaths df
-    df_d = pd.read_csv(filename_d).drop(columns=[
-            'UID', 'iso2', 'iso3', 'code3', 'Lat', 'Long_','Combined_Key',
-            'Country_Region', 'Admin2', 'FIPS', 'Population'])
+    
     
     df_d = df_d.loc[df_d['Province_State'] == state].drop(columns=['Province_State']).sum(axis=0)
     df_d = pd.DataFrame(df_d) # needed or df is a series
